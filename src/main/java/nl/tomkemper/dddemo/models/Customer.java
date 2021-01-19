@@ -1,5 +1,7 @@
 package nl.tomkemper.dddemo.models;
 
+import nl.tomkemper.dddemo.services.OrderNotificationService;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,5 +50,13 @@ public class Customer {
 
     public Order startOrder(){
         return new Order(this);
+    }
+
+    public void completeOrder(Order order, OrderNotificationService service){
+        if(this.isEmailValidated){
+            service.sendNotification(order);
+        }else{
+            throw new RuntimeException("Email was not validated");
+        }
     }
 }

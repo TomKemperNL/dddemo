@@ -93,8 +93,9 @@ public class CurrentOrderController {
     @Transactional
     @PostMapping("/complete")
     public Order finishOrder() {
-        Order currentOrder = getFromSession();
-        if (currentOrder == null) {
+        Order finishedOrder = getFromSession();
+        Customer currentCustomer = login.getLoggedInCustomer();
+        if (finishedOrder == null) {
             throw new NotFoundException();
         }
 
@@ -102,14 +103,9 @@ public class CurrentOrderController {
             throw new UnauthorizedException();
         }
 
-        if (!currentOrder.getCustomer().isEmailValidated()) {
-            throw new ForbiddenException();
-        }
-
-        Order finishedOrder = currentOrder;
         setInSession(null);
         this.orders.save(finishedOrder);
-        this.notificationService.sendNotification(finishedOrder);
+        currentCustomer.completeOrder(finishedOrder, this.notificationService);
         return finishedOrder;
     }
 
