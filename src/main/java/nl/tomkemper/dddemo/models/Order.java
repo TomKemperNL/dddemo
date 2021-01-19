@@ -22,6 +22,14 @@ public class Order {
     @ManyToOne
     private Customer customer;
 
+    protected Order() {
+    }
+
+    public Order(Customer customer) {
+        this();
+        this.customer = customer;
+    }
+
     public Customer getCustomer() {
         return customer;
     }
@@ -32,5 +40,9 @@ public class Order {
 
     public List<OrderLine> getOrderLines() {
         return orderLines;
+    }
+
+    public void addBook(Book toOrder, int nr) {
+        this.orderLines.add(new OrderLine(this, toOrder, nr));
     }
 }

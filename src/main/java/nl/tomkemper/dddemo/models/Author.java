@@ -2,10 +2,7 @@ package nl.tomkemper.dddemo.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,12 +15,16 @@ public class Author {
 
     private String name;
 
-    public String getName() {
-        return name;
+    protected Author() {
     }
 
-    public void setName(String name) {
+    public Author(String name) {
+        this();
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public List<Book> getBooks() {
@@ -31,11 +32,14 @@ public class Author {
     }
 
     @JsonBackReference
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Book> books = new ArrayList<>();
 
     public long getId() {
         return id;
     }
 
+    public void addBook(String title) {
+        this.books.add(new Book(this, title));
+    }
 }

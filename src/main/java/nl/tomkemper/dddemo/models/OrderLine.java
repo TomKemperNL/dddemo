@@ -23,6 +23,22 @@ public class OrderLine {
     @JsonBackReference
     private Order order;
 
+    protected OrderLine(){
+        this.number = 1;
+    }
+
+    public OrderLine(Order order, Book book){
+        this();
+        this.order = order;
+        this.book = book;
+    }
+
+    public OrderLine(Order order, Book book, int nr){
+        this(order, book);
+        this.number = nr;
+    }
+
+
     public int getNumber() {
         return number;
     }

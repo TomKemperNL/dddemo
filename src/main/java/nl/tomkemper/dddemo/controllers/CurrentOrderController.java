@@ -59,8 +59,7 @@ public class CurrentOrderController {
             throw new UnauthorizedException();
         }
 
-        Order currentOrder = new Order();
-        currentOrder.setCustomer(current);
+        Order currentOrder = current.startOrder();
         setInSession(currentOrder);
         return currentOrder;
     }
@@ -88,12 +87,7 @@ public class CurrentOrderController {
             currentOrder = initializeOrder();
         }
 
-        OrderLine line = new OrderLine();
-        line.setBook(toOrder);
-        line.setNumber(nr);
-        line.setOrder(currentOrder);
-
-        currentOrder.getOrderLines().add(line);
+        currentOrder.addBook(toOrder, nr);
     }
 
     @Transactional

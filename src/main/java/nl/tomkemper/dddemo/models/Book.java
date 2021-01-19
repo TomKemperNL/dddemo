@@ -19,6 +19,16 @@ public class Book {
     @ManyToOne
     private Author author;
 
+    protected Book(){
+        this.price = 9.99;
+    }
+
+    public Book(Author author, String title){
+        this();
+        this.author = author;
+        this.title = title;
+    }
+
     public long getId() {
         return id;
     }

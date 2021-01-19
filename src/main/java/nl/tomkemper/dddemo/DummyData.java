@@ -22,38 +22,20 @@ public class DummyData implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        Customer c1 = new Customer();
-        c1.setEmailAddress(EmailAddress.parse("tom@tomkemper.nl").get());
+        EmailAddress address = EmailAddress.parse("tom@tomkemper.nl").get();
 
+        Customer c1 = new Customer(address);
         entityManager.persist(c1);
 
-        Author jk = new Author();
-        jk.setName("JK Rowling");
-
+        Author jk = new Author("JK Rowling");
+        jk.addBook("De Steen der Wijzen");
+        jk.addBook("De Geheime Kamer");
         entityManager.persist(jk);
 
-        Book harry1 = new Book();
-        harry1.setAuthor(jk);
-        harry1.setTitle("De Steen der Wijzen");
-
-        entityManager.persist(harry1);
-
-        Book harry2 = new Book();
-        harry2.setAuthor(jk);
-        harry2.setTitle("De Geheime Kamer");
-
-        entityManager.persist(harry2);
-
-        Author scott = new Author();
-        scott.setName("Scott Wlaschin");
-
+        Author scott = new Author("Scott Wlaschin");
+        scott.addBook("Domain Modeling Made Functional");
         entityManager.persist(scott);
 
-        Book dddFsharp = new Book();
-        dddFsharp.setAuthor(scott);
-        dddFsharp.setTitle("Domain Modelling Made Functional");
-
-        entityManager.persist(dddFsharp);
 
 
     }
