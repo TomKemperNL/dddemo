@@ -1,4 +1,4 @@
-package nl.tomkemper.dddemo.models;
+package nl.tomkemper.dddemo.books;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 

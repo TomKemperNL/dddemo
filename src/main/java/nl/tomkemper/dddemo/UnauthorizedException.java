@@ -1,4 +1,4 @@
-package nl.tomkemper.dddemo.exceptions;
+package nl.tomkemper.dddemo;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

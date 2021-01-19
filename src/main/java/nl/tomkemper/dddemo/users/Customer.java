@@ -1,6 +1,7 @@
-package nl.tomkemper.dddemo.models;
+package nl.tomkemper.dddemo.users;
 
-import nl.tomkemper.dddemo.services.OrderNotificationService;
+import nl.tomkemper.dddemo.orders.Order;
+import nl.tomkemper.dddemo.orders.OrderNotificationService;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

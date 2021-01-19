@@ -1,6 +1,7 @@
-package nl.tomkemper.dddemo.models;
+package nl.tomkemper.dddemo.orders;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import nl.tomkemper.dddemo.books.Book;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

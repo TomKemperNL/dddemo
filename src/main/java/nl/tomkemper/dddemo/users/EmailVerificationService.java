@@ -1,6 +1,4 @@
-package nl.tomkemper.dddemo.services;
-
-import nl.tomkemper.dddemo.models.Customer;
+package nl.tomkemper.dddemo.users;
 
 import java.util.UUID;
 

@@ -1,6 +1,5 @@
-package nl.tomkemper.dddemo.repositories;
+package nl.tomkemper.dddemo.books;
 
-import nl.tomkemper.dddemo.models.Book;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 

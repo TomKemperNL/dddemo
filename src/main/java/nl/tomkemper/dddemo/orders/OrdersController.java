@@ -1,15 +1,12 @@
-package nl.tomkemper.dddemo.controllers;
+package nl.tomkemper.dddemo.orders;
 
-import nl.tomkemper.dddemo.exceptions.UnauthorizedException;
-import nl.tomkemper.dddemo.models.Customer;
-import nl.tomkemper.dddemo.models.Order;
-import nl.tomkemper.dddemo.repositories.OrderRepository;
-import nl.tomkemper.dddemo.services.LoginService;
+import nl.tomkemper.dddemo.UnauthorizedException;
+import nl.tomkemper.dddemo.users.Customer;
+import nl.tomkemper.dddemo.users.LoginService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController

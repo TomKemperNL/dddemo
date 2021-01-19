@@ -1,14 +1,11 @@
-package nl.tomkemper.dddemo.controllers;
+package nl.tomkemper.dddemo.users;
 
-import nl.tomkemper.dddemo.exceptions.UnauthorizedException;
-import nl.tomkemper.dddemo.services.EmailVerificationService;
-import nl.tomkemper.dddemo.services.LoginService;
+import nl.tomkemper.dddemo.UnauthorizedException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
 import java.util.UUID;
 
 @RestController

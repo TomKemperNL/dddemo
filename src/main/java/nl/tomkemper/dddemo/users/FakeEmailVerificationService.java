@@ -1,8 +1,5 @@
-package nl.tomkemper.dddemo.services;
+package nl.tomkemper.dddemo.users;
 
-import nl.tomkemper.dddemo.models.Customer;
-import nl.tomkemper.dddemo.models.EmailAddress;
-import nl.tomkemper.dddemo.repositories.CustomerRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

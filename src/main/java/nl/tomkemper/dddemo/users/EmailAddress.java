@@ -1,4 +1,4 @@
-package nl.tomkemper.dddemo.models;
+package nl.tomkemper.dddemo.users;
 
 import java.util.Objects;
 import java.util.Optional;

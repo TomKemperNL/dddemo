@@ -1,16 +1,10 @@
-package nl.tomkemper.dddemo.controllers;
+package nl.tomkemper.dddemo.users;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import nl.tomkemper.dddemo.exceptions.BadRequestException;
-import nl.tomkemper.dddemo.exceptions.NotFoundException;
-import nl.tomkemper.dddemo.models.Customer;
-import nl.tomkemper.dddemo.models.EmailAddress;
-import nl.tomkemper.dddemo.repositories.CustomerRepository;
-import nl.tomkemper.dddemo.services.LoginService;
+import nl.tomkemper.dddemo.BadRequestException;
+import nl.tomkemper.dddemo.NotFoundException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @RestController

@@ -1,4 +1,7 @@
-package nl.tomkemper.dddemo.models;
+package nl.tomkemper.dddemo.orders;
+
+import nl.tomkemper.dddemo.books.Book;
+import nl.tomkemper.dddemo.users.Customer;
 
 import javax.persistence.*;
 import java.util.ArrayList;

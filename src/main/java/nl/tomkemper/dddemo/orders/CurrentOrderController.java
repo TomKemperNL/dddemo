@@ -1,16 +1,11 @@
-package nl.tomkemper.dddemo.controllers;
+package nl.tomkemper.dddemo.orders;
 
-import nl.tomkemper.dddemo.exceptions.ForbiddenException;
-import nl.tomkemper.dddemo.exceptions.NotFoundException;
-import nl.tomkemper.dddemo.exceptions.UnauthorizedException;
-import nl.tomkemper.dddemo.models.Book;
-import nl.tomkemper.dddemo.models.Customer;
-import nl.tomkemper.dddemo.models.Order;
-import nl.tomkemper.dddemo.models.OrderLine;
-import nl.tomkemper.dddemo.repositories.BookRepository;
-import nl.tomkemper.dddemo.repositories.OrderRepository;
-import nl.tomkemper.dddemo.services.LoginService;
-import nl.tomkemper.dddemo.services.OrderNotificationService;
+import nl.tomkemper.dddemo.NotFoundException;
+import nl.tomkemper.dddemo.UnauthorizedException;
+import nl.tomkemper.dddemo.books.Book;
+import nl.tomkemper.dddemo.users.Customer;
+import nl.tomkemper.dddemo.books.BookRepository;
+import nl.tomkemper.dddemo.users.LoginService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 

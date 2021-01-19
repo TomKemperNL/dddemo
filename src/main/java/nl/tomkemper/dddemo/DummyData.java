@@ -1,9 +1,8 @@
 package nl.tomkemper.dddemo;
 
-import nl.tomkemper.dddemo.models.Author;
-import nl.tomkemper.dddemo.models.Book;
-import nl.tomkemper.dddemo.models.Customer;
-import nl.tomkemper.dddemo.models.EmailAddress;
+import nl.tomkemper.dddemo.books.Author;
+import nl.tomkemper.dddemo.users.Customer;
+import nl.tomkemper.dddemo.users.EmailAddress;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

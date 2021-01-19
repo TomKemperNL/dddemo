@@ -1,6 +1,6 @@
-package nl.tomkemper.dddemo.repositories;
+package nl.tomkemper.dddemo.books;
 
-import nl.tomkemper.dddemo.models.Book;
+import nl.tomkemper.dddemo.books.Book;
 
 import java.util.List;
 

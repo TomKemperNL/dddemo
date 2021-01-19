@@ -1,7 +1,6 @@
-package nl.tomkemper.dddemo.repositories;
+package nl.tomkemper.dddemo.orders;
 
-import nl.tomkemper.dddemo.models.Customer;
-import nl.tomkemper.dddemo.models.Order;
+import nl.tomkemper.dddemo.users.Customer;
 
 import java.util.List;
 

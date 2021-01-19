@@ -1,6 +1,5 @@
-package nl.tomkemper.dddemo.services;
+package nl.tomkemper.dddemo.orders;
 
-import nl.tomkemper.dddemo.models.Order;
 import org.springframework.stereotype.Component;
 
 @Component
