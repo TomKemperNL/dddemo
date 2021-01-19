@@ -10,6 +10,7 @@ import nl.tomkemper.dddemo.models.OrderLine;
 import nl.tomkemper.dddemo.repositories.BookRepository;
 import nl.tomkemper.dddemo.repositories.OrderRepository;
 import nl.tomkemper.dddemo.services.LoginService;
+import nl.tomkemper.dddemo.services.OrderNotificationService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,7 @@ public class CurrentOrderController {
     private final OrderRepository orders;
     private final HttpSession session;
     private final LoginService login;
+    private final OrderNotificationService notificationService;
 
     private Order getFromSession() {
         Order currentOrder = (Order) session.getAttribute(ORDER_KEY);
@@ -42,11 +44,13 @@ public class CurrentOrderController {
             BookRepository books,
             OrderRepository orders,
             LoginService login,
+            OrderNotificationService notificationService,
             HttpSession session) {
         this.books = books;
         this.orders = orders;
         this.session = session;
         this.login = login;
+        this.notificationService = notificationService;
     }
 
     private Order initializeOrder() {
@@ -111,7 +115,7 @@ public class CurrentOrderController {
         Order finishedOrder = currentOrder;
         setInSession(null);
         this.orders.save(finishedOrder);
-
+        this.notificationService.sendNotification(finishedOrder);
         return finishedOrder;
     }
 

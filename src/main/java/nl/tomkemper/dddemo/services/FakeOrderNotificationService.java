@@ -1,7 +1,9 @@
 package nl.tomkemper.dddemo.services;
 
 import nl.tomkemper.dddemo.models.Order;
+import org.springframework.stereotype.Component;
 
+@Component
 public class FakeOrderNotificationService implements OrderNotificationService {
 
     public void sendNotification(Order order) {
