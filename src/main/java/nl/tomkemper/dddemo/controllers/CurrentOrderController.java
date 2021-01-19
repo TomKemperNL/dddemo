@@ -9,6 +9,7 @@ import nl.tomkemper.dddemo.models.Order;
 import nl.tomkemper.dddemo.models.OrderLine;
 import nl.tomkemper.dddemo.repositories.BookRepository;
 import nl.tomkemper.dddemo.repositories.OrderRepository;
+import nl.tomkemper.dddemo.services.LoginService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,23 +23,34 @@ public class CurrentOrderController {
     private final BookRepository books;
     private final OrderRepository orders;
     private final HttpSession session;
+    private final LoginService login;
 
-    private Order getFromSession(){
-         return (Order)session.getAttribute(ORDER_KEY);
+    private Order getFromSession() {
+        Order currentOrder = (Order) session.getAttribute(ORDER_KEY);
+        if(currentOrder != null){
+            //Dit is niet zo netjes, want eeeeigenlijk moeten we hier niet een 'echt' order opslaan
+            currentOrder.setCustomer(login.getLoggedInCustomer());
+        }
+        return currentOrder;
     }
 
-    private void setInSession(Order order){
+    private void setInSession(Order order) {
         session.setAttribute(ORDER_KEY, order);
     }
 
-    public CurrentOrderController(BookRepository books, OrderRepository orders, HttpSession session) {
+    public CurrentOrderController(
+            BookRepository books,
+            OrderRepository orders,
+            LoginService login,
+            HttpSession session) {
         this.books = books;
         this.orders = orders;
         this.session = session;
+        this.login = login;
     }
 
     private Order initializeOrder() {
-        Customer current = LoginController.getLoggedInCustomer(session);
+        Customer current = login.getLoggedInCustomer();
         if (current == null) {
             throw new UnauthorizedException();
         }
@@ -88,11 +100,11 @@ public class CurrentOrderController {
             throw new NotFoundException();
         }
 
-        if (LoginController.getLoggedInCustomer(this.session) == null) {
+        if (login.getLoggedInCustomer() == null) {
             throw new UnauthorizedException();
         }
 
-        if(!currentOrder.getCustomer().isEmailValidated()){
+        if (!currentOrder.getCustomer().isEmailValidated()) {
             throw new ForbiddenException();
         }
 

@@ -3,6 +3,7 @@ package nl.tomkemper.dddemo.controllers;
 import nl.tomkemper.dddemo.exceptions.NotFoundException;
 import nl.tomkemper.dddemo.models.Customer;
 import nl.tomkemper.dddemo.repositories.CustomerRepository;
+import nl.tomkemper.dddemo.services.LoginService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -11,22 +12,16 @@ import javax.servlet.http.HttpSession;
 @RestController
 @RequestMapping("login")
 public class LoginController {
-    private static final String CUSTOMER_KEY = "nl.tomkemper.dddemo.customer";
-    private final HttpSession session;
 
-    private final CustomerRepository customers;
-    public static Customer getLoggedInCustomer(HttpSession session) {
-        return (Customer)session.getAttribute(CUSTOMER_KEY);
-    }
+    private final LoginService loginService;
 
-    public LoginController(CustomerRepository customers, HttpSession session){
-        this.customers = customers;
-        this.session = session;
+    public LoginController(LoginService loginService){
+        this.loginService = loginService;
     }
 
     @GetMapping("")
     public Customer getCurrentCustomer(){
-        Customer current = getLoggedInCustomer(session);
+        Customer current = this.loginService.getLoggedInCustomer();
         if(current == null){
             throw new NotFoundException();
         }
@@ -36,13 +31,10 @@ public class LoginController {
 
     @PostMapping("")
     public void login(@RequestBody Customer customer){
-        Customer existing = this.customers.findCustomer(customer.getEmailAddress());
-
+        Customer existing = this.loginService.login(customer.getEmailAddress(), "TODO");
         if(existing == null){
             throw new NotFoundException();
         }
-
-        session.setAttribute(CUSTOMER_KEY, existing);
     }
 
 }
