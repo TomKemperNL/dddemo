@@ -6,26 +6,32 @@ import nl.tomkemper.dddemo.repositories.CustomerRepository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
 @RequestMapping("login")
 public class LoginController {
+    private static final String CUSTOMER_KEY = "nl.tomkemper.dddemo.customer";
+    private final HttpSession session;
+
     private final CustomerRepository customers;
+    public static Customer getLoggedInCustomer(HttpSession session) {
+        return (Customer)session.getAttribute(CUSTOMER_KEY);
+    }
 
-    //DO NOT TRY THIS AT HOME
-    //This is very much a fake login-controller
-    private static Customer fakeLoggedInCustomer;
-
-    public LoginController(CustomerRepository customers){
+    public LoginController(CustomerRepository customers, HttpSession session){
         this.customers = customers;
+        this.session = session;
     }
 
     @GetMapping("")
     public Customer getCurrentCustomer(){
-        if(fakeLoggedInCustomer == null){
+        Customer current = getLoggedInCustomer(session);
+        if(current == null){
             throw new NotFoundException();
         }
 
-        return fakeLoggedInCustomer;
+        return current;
     }
 
     @PostMapping("")
@@ -36,10 +42,7 @@ public class LoginController {
             throw new NotFoundException();
         }
 
-        fakeLoggedInCustomer = existing;
+        session.setAttribute(CUSTOMER_KEY, existing);
     }
 
-    public static Customer getFakeLoggedInCustomer() {
-        return fakeLoggedInCustomer;
-    }
 }

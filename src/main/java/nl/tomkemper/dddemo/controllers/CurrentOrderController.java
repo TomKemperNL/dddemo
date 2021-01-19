@@ -3,6 +3,7 @@ package nl.tomkemper.dddemo.controllers;
 import nl.tomkemper.dddemo.exceptions.NotFoundException;
 import nl.tomkemper.dddemo.exceptions.UnauthorizedException;
 import nl.tomkemper.dddemo.models.Book;
+import nl.tomkemper.dddemo.models.Customer;
 import nl.tomkemper.dddemo.models.Order;
 import nl.tomkemper.dddemo.models.OrderLine;
 import nl.tomkemper.dddemo.repositories.BookRepository;
@@ -10,33 +11,45 @@ import nl.tomkemper.dddemo.repositories.OrderRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
 @RequestMapping("order")
 public class CurrentOrderController {
 
+    private static final String ORDER_KEY = "nl.tomkemper.dddemo.order";
     private final BookRepository books;
     private final OrderRepository orders;
+    private final HttpSession session;
 
-    //DO NOT TRY THIS AT HOME
-    //This is very much a fake order-controller
-    private static Order currentOrder;
+    private Order getFromSession(){
+         return (Order)session.getAttribute(ORDER_KEY);
+    }
 
+    private void setInSession(Order order){
+        session.setAttribute(ORDER_KEY, order);
+    }
 
-    public CurrentOrderController(BookRepository books, OrderRepository orders) {
+    public CurrentOrderController(BookRepository books, OrderRepository orders, HttpSession session) {
         this.books = books;
         this.orders = orders;
+        this.session = session;
     }
 
     private void initializeOrder() {
-        if (LoginController.getFakeLoggedInCustomer() == null) {
+        Customer current = LoginController.getLoggedInCustomer(session);
+        if (current == null) {
             throw new UnauthorizedException();
         }
-        currentOrder = new Order();
-        currentOrder.setCustomer(LoginController.getFakeLoggedInCustomer());
+
+        Order currentOrder = new Order();
+        currentOrder.setCustomer(current);
+        setInSession(currentOrder);
     }
 
     @GetMapping("")
     public Order getCurrentOrder() {
+        Order currentOrder = getFromSession();
         if (currentOrder == null) {
             initializeOrder();
         }
@@ -52,6 +65,7 @@ public class CurrentOrderController {
             throw new NotFoundException();
         }
 
+        Order currentOrder = getFromSession();
         if (currentOrder == null) {
             initializeOrder();
         }
@@ -67,16 +81,17 @@ public class CurrentOrderController {
     @Transactional
     @PostMapping("/complete")
     public Order finishOrder() {
+        Order currentOrder = getFromSession();
         if (currentOrder == null) {
             throw new NotFoundException();
         }
 
-        if (LoginController.getFakeLoggedInCustomer() == null) {
+        if (LoginController.getLoggedInCustomer(this.session) == null) {
             throw new UnauthorizedException();
         }
 
         Order finishedOrder = currentOrder;
-        currentOrder = null;
+        setInSession(null);
         this.orders.save(finishedOrder);
 
         return finishedOrder;
