@@ -16,6 +16,8 @@ public class Customer {
     @Column(unique = true)
     private String emailAddress;
 
+    private boolean isEmailValidated;
+
     public long getId() {
         return id;
     }
@@ -26,5 +28,13 @@ public class Customer {
 
     public String getEmailAddress() {
         return emailAddress;
+    }
+
+    public boolean isEmailValidated() {
+        return isEmailValidated;
+    }
+
+    public void setEmailValidated(boolean isEmailValidated) {
+        this.isEmailValidated = isEmailValidated;
     }
 }

@@ -1,5 +1,6 @@
 package nl.tomkemper.dddemo.controllers;
 
+import nl.tomkemper.dddemo.exceptions.ForbiddenException;
 import nl.tomkemper.dddemo.exceptions.NotFoundException;
 import nl.tomkemper.dddemo.exceptions.UnauthorizedException;
 import nl.tomkemper.dddemo.models.Book;
@@ -36,7 +37,7 @@ public class CurrentOrderController {
         this.session = session;
     }
 
-    private void initializeOrder() {
+    private Order initializeOrder() {
         Customer current = LoginController.getLoggedInCustomer(session);
         if (current == null) {
             throw new UnauthorizedException();
@@ -45,13 +46,14 @@ public class CurrentOrderController {
         Order currentOrder = new Order();
         currentOrder.setCustomer(current);
         setInSession(currentOrder);
+        return currentOrder;
     }
 
     @GetMapping("")
     public Order getCurrentOrder() {
         Order currentOrder = getFromSession();
         if (currentOrder == null) {
-            initializeOrder();
+            currentOrder = initializeOrder();
         }
 
         return currentOrder;
@@ -67,7 +69,7 @@ public class CurrentOrderController {
 
         Order currentOrder = getFromSession();
         if (currentOrder == null) {
-            initializeOrder();
+            currentOrder = initializeOrder();
         }
 
         OrderLine line = new OrderLine();
@@ -88,6 +90,10 @@ public class CurrentOrderController {
 
         if (LoginController.getLoggedInCustomer(this.session) == null) {
             throw new UnauthorizedException();
+        }
+
+        if(!currentOrder.getCustomer().isEmailValidated()){
+            throw new ForbiddenException();
         }
 
         Order finishedOrder = currentOrder;
