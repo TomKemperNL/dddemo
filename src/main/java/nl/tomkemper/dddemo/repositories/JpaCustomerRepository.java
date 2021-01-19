@@ -1,6 +1,7 @@
 package nl.tomkemper.dddemo.repositories;
 
 import nl.tomkemper.dddemo.models.Customer;
+import nl.tomkemper.dddemo.models.EmailAddress;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +20,9 @@ public class JpaCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer findCustomer(String emailAddress) {
+    public Customer findCustomer(EmailAddress emailAddress) {
         TypedQuery<Customer> query = entities.createQuery("select c from Customer c where c.emailAddress = ?1", Customer.class);
-        query.setParameter(1, emailAddress);
+        query.setParameter(1, emailAddress.getValue());
         List<Customer> results = query.getResultList();
 
         if (results.size() > 1) {

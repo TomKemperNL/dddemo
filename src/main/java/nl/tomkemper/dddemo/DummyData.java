@@ -3,6 +3,7 @@ package nl.tomkemper.dddemo;
 import nl.tomkemper.dddemo.models.Author;
 import nl.tomkemper.dddemo.models.Book;
 import nl.tomkemper.dddemo.models.Customer;
+import nl.tomkemper.dddemo.models.EmailAddress;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +15,7 @@ public class DummyData implements CommandLineRunner {
 
     private final EntityManager entityManager;
 
-    public DummyData(EntityManager entityManager){
+    public DummyData(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
@@ -22,7 +23,7 @@ public class DummyData implements CommandLineRunner {
     @Transactional
     public void run(String... args) throws Exception {
         Customer c1 = new Customer();
-        c1.setEmailAddress("tom@tomkemper.nl");
+        c1.setEmailAddress(EmailAddress.parse("tom@tomkemper.nl").get());
 
         entityManager.persist(c1);
 
@@ -53,8 +54,6 @@ public class DummyData implements CommandLineRunner {
         dddFsharp.setTitle("Domain Modelling Made Functional");
 
         entityManager.persist(dddFsharp);
-
-
 
 
     }

@@ -1,6 +1,7 @@
 package nl.tomkemper.dddemo.services;
 
 import nl.tomkemper.dddemo.models.Customer;
+import nl.tomkemper.dddemo.models.EmailAddress;
 import nl.tomkemper.dddemo.repositories.CustomerRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +15,7 @@ public class FakeEmailVerificationService implements EmailVerificationService {
 
     private final CustomerRepository customers;
 
-    private Map<UUID, String> lookup = new HashMap<>();
+    private Map<UUID, EmailAddress> lookup = new HashMap<>();
 
     public FakeEmailVerificationService(CustomerRepository customers){
         this.customers = customers;
@@ -28,10 +29,13 @@ public class FakeEmailVerificationService implements EmailVerificationService {
 
     @Transactional
     public void acceptVerificationCode(UUID uid){
-        String email = lookup.get(uid);
+        EmailAddress email = lookup.get(uid);
         if(email != null){
+            System.out.println("Verifying email for: " + email);
             Customer c = this.customers.findCustomer(email);
             c.setEmailValidated(true);
+        }else{
+            System.out.println("No pending request found for: " + uid);
         }
     }
 

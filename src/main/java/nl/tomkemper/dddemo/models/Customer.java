@@ -22,12 +22,12 @@ public class Customer {
         return id;
     }
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setEmailAddress(EmailAddress emailAddress) {
+        this.emailAddress = emailAddress.getValue();
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public EmailAddress getEmailAddress() {
+        return EmailAddress.deserialize(this.emailAddress);
     }
 
     public boolean isEmailValidated() {
