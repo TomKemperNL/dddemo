@@ -23,7 +23,12 @@ public class FakeEmailVerificationService implements EmailVerificationService {
     public void sendVerificationEmail(Customer customer){
         UUID verificationCode = UUID.randomUUID();
         this.lookup.put(verificationCode, customer.getEmailAddress());
-        System.out.println("Fake email verification code: " + verificationCode);
+
+        if (customer.getEmailAddress().matches(EmailVerificationService.EMAIL_REGEX)) {
+            System.out.println("Fake email verification code: " + verificationCode);
+        }else{
+            throw new RuntimeException("Invalid EmailAddress");
+        }
     }
 
     @Transactional
