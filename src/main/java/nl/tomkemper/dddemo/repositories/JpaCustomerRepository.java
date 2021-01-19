@@ -20,6 +20,11 @@ public class JpaCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public Customer get(long id) {
+        return this.entities.find(Customer.class, id);
+    }
+
+    @Override
     public Customer findCustomer(EmailAddress emailAddress) {
         TypedQuery<Customer> query = entities.createQuery("select c from Customer c where c.emailAddress = ?1", Customer.class);
         query.setParameter(1, emailAddress.getValue());

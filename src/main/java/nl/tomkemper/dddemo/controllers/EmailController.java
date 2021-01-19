@@ -2,6 +2,7 @@ package nl.tomkemper.dddemo.controllers;
 
 import nl.tomkemper.dddemo.exceptions.UnauthorizedException;
 import nl.tomkemper.dddemo.services.EmailVerificationService;
+import nl.tomkemper.dddemo.services.LoginService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,20 +15,20 @@ import java.util.UUID;
 @RequestMapping("email")
 public class EmailController {
 
-    private final HttpSession session;
+    private final LoginService login;
     private final EmailVerificationService verificationService;
 
-    public EmailController(EmailVerificationService verificationService, HttpSession session){
-        this.session = session;
+    public EmailController(EmailVerificationService verificationService, LoginService login){
+        this.login = login;
         this.verificationService = verificationService;
     }
 
     @PostMapping("resend")
     public void resendVerificationMail(){
-        if(LoginController.getLoggedInCustomer(this.session) == null){
+        if(login.getLoggedInCustomer() == null){
             throw new UnauthorizedException();
         }else{
-            this.verificationService.sendVerificationEmail(LoginController.getLoggedInCustomer(this.session));
+            this.verificationService.sendVerificationEmail(login.getLoggedInCustomer());
         }
     }
 
