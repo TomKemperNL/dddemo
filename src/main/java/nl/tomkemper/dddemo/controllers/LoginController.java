@@ -1,5 +1,6 @@
 package nl.tomkemper.dddemo.controllers;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import nl.tomkemper.dddemo.exceptions.NotFoundException;
 import nl.tomkemper.dddemo.models.Customer;
 import nl.tomkemper.dddemo.repositories.CustomerRepository;
@@ -30,8 +31,11 @@ public class LoginController {
     }
 
     @PostMapping("")
-    public void login(@RequestBody Customer customer){
-        Customer existing = this.loginService.login(customer.getEmailAddress(), "TODO");
+    public void login(@RequestBody ObjectNode credentials){
+        String email = credentials.get("emailAddress").asText();
+        String password = credentials.get("password").asText();
+
+        Customer existing = this.loginService.login(email, password);
         if(existing == null){
             throw new NotFoundException();
         }
