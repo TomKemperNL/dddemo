@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 public class Customer {
@@ -59,5 +60,18 @@ public class Customer {
         }else{
             throw new RuntimeException("Email was not validated");
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return id == customer.id && emailAddress.equals(customer.emailAddress);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, emailAddress);
     }
 }
