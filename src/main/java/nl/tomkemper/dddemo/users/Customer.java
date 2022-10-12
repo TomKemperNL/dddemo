@@ -2,20 +2,18 @@ package nl.tomkemper.dddemo.users;
 
 import nl.tomkemper.dddemo.orders.Order;
 import nl.tomkemper.dddemo.orders.OrderNotificationService;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Customer {
 
-
-    @Id
-    @GeneratedValue
-    private long id;
+    @EmbeddedId
+    @GenericGenerator(name = "customerId", strategy = "nl.tomkemper.dddemo.users.CustomerIdGenerator")
+    @GeneratedValue(generator = "customerId")
+    private CustomerId id = new CustomerId();
 
     @Column(unique = true)
     private String emailAddress;
@@ -30,7 +28,7 @@ public class Customer {
 
     private boolean isEmailValidated;
 
-    public long getId() {
+    public CustomerId getId() {
         return id;
     }
 
