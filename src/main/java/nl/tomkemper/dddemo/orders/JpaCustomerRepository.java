@@ -1,6 +1,7 @@
 package nl.tomkemper.dddemo.orders;
 
 import nl.tomkemper.dddemo.users.Customer;
+import nl.tomkemper.dddemo.users.CustomerId;
 import nl.tomkemper.dddemo.users.CustomerRepository;
 import nl.tomkemper.dddemo.users.EmailAddress;
 import org.springframework.context.annotation.Primary;
@@ -40,5 +41,10 @@ public class JpaCustomerRepository implements CustomerRepository {
         }
 
         return results.get(0);
+    }
+
+    @Override
+    public Customer get(CustomerId customerId) {
+        return this.get(customerId.getValue());
     }
 }

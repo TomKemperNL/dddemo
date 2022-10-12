@@ -10,10 +10,17 @@ import java.util.Objects;
 @Entity
 public class Customer {
 
-    @EmbeddedId
-    @GenericGenerator(name = "customerId", strategy = "nl.tomkemper.dddemo.users.CustomerIdGenerator")
-    @GeneratedValue(generator = "customerId")
-    private CustomerId id = new CustomerId();
+    public Order startOrder(){
+        return new Order(this);
+    }
+
+
+    @Id
+    @GeneratedValue
+    private long id;
+    public CustomerId getId() {
+        return new CustomerId(id);
+    }
 
     @Column(unique = true)
     private String emailAddress;
@@ -28,9 +35,6 @@ public class Customer {
 
     private boolean isEmailValidated;
 
-    public CustomerId getId() {
-        return id;
-    }
 
     public void setEmailAddress(EmailAddress emailAddress) {
         this.emailAddress = emailAddress.getValue();
@@ -48,9 +52,6 @@ public class Customer {
         this.isEmailValidated = isEmailValidated;
     }
 
-    public Order startOrder(){
-        return new Order(this);
-    }
 
     public void completeOrder(Order order, OrderNotificationService service){
         if(this.isEmailValidated){

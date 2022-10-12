@@ -21,7 +21,7 @@ class CustomerTest {
         entities.flush();
         entities.clear();
 
-        Customer found = entities.find(Customer.class, c.getId());
+        Customer found = entities.find(Customer.class, c.getId().getValue());
 
         assertEquals(c, found);
     }
